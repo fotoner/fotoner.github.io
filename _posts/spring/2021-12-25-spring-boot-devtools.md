@@ -40,7 +40,7 @@ dependencies {
 
 ![image](/assets/images/posts/spring/2021-12-25-spring-boot-devtools/setting2.png){: .align-center}
 
-첫번째로 __Advanced Settings__ 에서 빨간 박스안에 있는 __Allow auto-make to starte even...__ 를 체크해주면 된다. 2021 이전의 IDEA일 경우 [별도의 이슈](https://youtrack.jetbrains.com/issue/IDEA-274903)가 있을 수 있다. 
+첫번째로 __Advanced Settings__ 에서 빨간 박스안에 있는 __Allow auto-make to start even...__ 를 체크해주면 된다. 2021 이전의 IDEA일 경우 [별도의 이슈](https://youtrack.jetbrains.com/issue/IDEA-274903)가 있을 수 있다. 
 
 ![image](/assets/images/posts/spring/2021-12-25-spring-boot-devtools/setting1.png){: .align-center}
 

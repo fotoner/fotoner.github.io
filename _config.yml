@@ -95,16 +95,16 @@ social:
 
 # Analytics
 analytics:
-  provider               : false # false (default), "google", "google-universal", "google-gtag", "custom"
+  provider               : "google-gtag" # false (default), "google", "google-universal", "google-gtag", "custom"
   google:
-    tracking_id          :
+    tracking_id          : "G-1KVD3535TK"
     anonymize_ip         : # true, false (default)
 
 
 # Site Author
 author:
   name             : "Fotone"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  avatar           : "https://avatars.githubusercontent.com/u/20179860" # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
   bio              : "**A.K.A** Nam Hyeonjae"
   location         : "Daegu"
   # email            : "jaemuon5582@gmail.com"
@@ -123,7 +123,7 @@ author:
       # url: "https://facebook.com/"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      # url: "https://github.com/"
+      url: "https://github.com/fotoner-p"
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
       # url: "https://instagram.com/"
