@@ -19,11 +19,11 @@ locale                   : "ko-KR"
 title                    : "Fotonet"
 title_separator          : "-"
 subtitle                 : "개발 + 일상 Blog"
-name                     : "Fotone"
+name                     : "남현재"
 description              : "개발 + 일상 Blog"
-url                      : "https://blog.fotone.moe"
+url                      : "https://fotoner.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
-repository               : "fotoner-p/blog.fotone.moe" # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
+repository               : "fotoner/fotoner.github.io" # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 logo                     : # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
 masthead_title           : "Fotonet"
@@ -80,7 +80,7 @@ baidu_site_verification  :
 
 # Social Sharing
 twitter:
-  username               : "FotoneDev"
+  username               : 
 facebook:
   username               :
   app_id                 :
@@ -103,9 +103,9 @@ analytics:
 
 # Site Author
 author:
-  name             : "Fotone"
+  name             : "Nam Hyeonjae"
   avatar           : "https://avatars.githubusercontent.com/u/20179860" # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "**A.K.A** Nam Hyeonjae"
+  bio              : "**A.K.A** Fotone"
   location         : "Daegu"
   # email            : "jaemuon5582@gmail.com"
   links:
@@ -115,9 +115,9 @@ author:
     - label: "Website"
       icon: "fas fa-fw fa-link"
       # url: "https://your-website.com"
-    - label: "Twitter"
-      icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/FotoneDev"
+    # - label: "Twitter"
+    #   icon: "fab fa-fw fa-twitter-square"
+    #   url: "https://twitter.com/FotoneDev"
     - label: "Facebook"
       icon: "fab fa-fw fa-facebook-square"
       # url: "https://facebook.com/"
@@ -133,7 +133,7 @@ footer:
   links:
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/FotoneDev"
+      # url: "https://twitter.com/FotoneDev"
     - label: "Facebook"
       icon: "fab fa-fw fa-facebook-square"
       # url:
