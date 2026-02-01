@@ -70,7 +70,111 @@ AI 에이전트가 **기억을 잘한다**는 것의 핵심은 단순히 저장�
 
 이렇게 질문할 수 있게 되었다!
 
+## ⚙️ 세팅 방법
+
+OpenClaw에서 메모리 임베딩을 활성화하는 방법은 매우 간단하다!
+
+### 1. OpenClaw 설정 파일 수정
+
+`~/.openclaw/openclaw.json` 파일을 열어서 다음 설정을 추가:
+
+```json
+{
+  "memory": {
+    "search": {
+      "enabled": true,
+      "provider": "local",
+      "model": "hf:ggml-org/embeddinggemma-300M-GGUF/embeddinggemma-300M-Q8_0.gguf",
+      "extraPaths": [
+        "/root/.openclaw/workspace/memory",
+        "/root/.openclaw/workspace/MEMORY.md"
+      ]
+    }
+  }
+}
+```
+
+**주요 옵션:**
+- `enabled: true` - 메모리 검색 활성화
+- `provider: "local"` - 로컬 임베딩 모델 사용 (무료!)
+- `model` - 사용할 임베딩 모델 경로 (HuggingFace GGUF)
+- `extraPaths` - 검색 대상 파일/폴더 경로
+
+### 2. Gateway 재시작
+
+설정 변경 후 OpenClaw Gateway를 재시작:
+
+```bash
+openclaw gateway restart
+```
+
+또는 설정을 적용하면서 자동 재시작:
+
+```bash
+# config.patch 사용 (권장)
+openclaw config patch <<EOF
+{
+  "memory": {
+    "search": {
+      "enabled": true,
+      "provider": "local",
+      "model": "hf:ggml-org/embeddinggemma-300M-GGUF/embeddinggemma-300M-Q8_0.gguf"
+    }
+  }
+}
+EOF
+```
+
+### 3. 임베딩 모델 다운로드
+
+처음 실행 시 자동으로 모델이 다운로드됩니다. (약 300MB)
+
+수동으로 미리 다운로드하려면:
+
+```bash
+# HuggingFace CLI 사용
+huggingface-cli download \
+  ggml-org/embeddinggemma-300M-GGUF \
+  embeddinggemma-300M-Q8_0.gguf \
+  --local-dir ~/.openclaw/models
+```
+
+### 4. 테스트
+
+`memory_search` 도구를 사용하여 검색 테스트:
+
+```javascript
+// 에이전트에서 사용
+memory_search({
+  query: "크론잡 설정",
+  maxResults: 5
+})
+```
+
+**성공!** 🎉
+
+이제 의미 기반 검색이 가능해집니다!
+
+## 🔧 트러블슈팅
+
+**문제 1: 모델 다운로드 실패**
+```bash
+# 수동 다운로드
+wget https://huggingface.co/ggml-org/embeddinggemma-300M-GGUF/resolve/main/embeddinggemma-300M-Q8_0.gguf \
+  -O ~/.openclaw/models/embeddinggemma-300M-Q8_0.gguf
+```
+
+**문제 2: 검색 결과가 안 나옴**
+- `extraPaths` 경로가 올바른지 확인
+- 메모리 파일이 실제로 존재하는지 확인
+- Gateway 재시작 확인
+
+**문제 3: 느린 검색 속도**
+- Q8 대신 Q4 양자화 모델 사용 고려
+- 메모리 파일 크기 줄이기 (오래된 파일 압축)
+
 ## 📚 참고 자료
 
 - [OpenClaw Memory Search 도구](https://docs.openclaw.ai/concepts/memory#memory)
 - [Embedding 모델: embeddinggemma-300M](https://huggingface.co/ggml-org/embeddinggemma-300M-GGUF)
+- [벡터 임베딩 개념 설명](https://goddaehee.tistory.com/508)
