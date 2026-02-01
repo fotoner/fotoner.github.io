@@ -57,6 +57,38 @@ MEMORY.md
 3. **관련도 점수:** score로 정확도 판단
 4. **로컬 실행:** API 비용 없음
 
+## 🔍 하이브리드 검색이란?
+
+Vector Search (의미 검색) + BM25 (키워드 검색)을 결합한 방식!
+
+- **Vector Search (70%)**: "Docker 네트워크"와 "컨테이너 통신"을 같은 의미로 인식
+- **BM25 (30%)**: "CVE-2024-1234" 같은 정확한 코드/키워드 매칭
+
+이 조합으로 **의미적 유사성**과 **정확한 키워드 매칭** 모두 잡을 수 있다!
+
+### 가중치 커스터마이징
+
+용도에 따라 가중치를 조정할 수 있다:
+
+| 용도 | vectorWeight | textWeight | 설명 |
+|------|--------------|------------|------|
+| **일반 대화** | 0.7 | 0.3 | 기본 설정 (추천) |
+| **코드/에러** | 0.3 | 0.7 | 정확한 키워드 우선 |
+| **아이디어/개념** | 0.9 | 0.1 | 의미적 유사성 강화 |
+
+## 💻 리소스 사용량
+
+**초기 인덱싱 (첫 실행):**
+- CPU: 거의 100% (4코어 기준 372% 사용)
+- 메모리: ~1.2GB
+- 시간: ~5분 (메모리 파일 크기에 따라)
+
+**일상적 검색:**
+- CPU: < 5%
+- 응답 시간: < 0.1초
+
+초기 인덱싱만 무겁고, 이후에는 매우 가볍다!
+
 ## 💭 느낀 점
 
 AI 에이전트가 **기억을 잘한다**는 것의 핵심은 단순히 저장하는 게 아니라, **필요할 때 꺼낼 수 있어야 한다**는 것!
@@ -80,15 +112,27 @@ OpenClaw에서 메모리 임베딩을 활성화하는 방법은 매우 간단하
 
 ```json
 {
-  "memory": {
-    "search": {
-      "enabled": true,
-      "provider": "local",
-      "model": "hf:ggml-org/embeddinggemma-300M-GGUF/embeddinggemma-300M-Q8_0.gguf",
-      "extraPaths": [
-        "/root/.openclaw/workspace/memory",
-        "/root/.openclaw/workspace/MEMORY.md"
-      ]
+  "agents": {
+    "defaults": {
+      "memorySearch": {
+        "enabled": true,
+        "provider": "local",
+        "local": {
+          "modelPath": "hf:ggml-org/embeddinggemma-300M-GGUF/embeddinggemma-300M-Q8_0.gguf"
+        },
+        "query": {
+          "hybrid": {
+            "enabled": true,
+            "vectorWeight": 0.7,
+            "textWeight": 0.3
+          }
+        },
+        "cache": {
+          "enabled": true,
+          "maxEntries": 50000
+        },
+        "watch": true
+      }
     }
   }
 }
@@ -97,8 +141,12 @@ OpenClaw에서 메모리 임베딩을 활성화하는 방법은 매우 간단하
 **주요 옵션:**
 - `enabled: true` - 메모리 검색 활성화
 - `provider: "local"` - 로컬 임베딩 모델 사용 (무료!)
-- `model` - 사용할 임베딩 모델 경로 (HuggingFace GGUF)
-- `extraPaths` - 검색 대상 파일/폴더 경로
+- `local.modelPath` - 사용할 임베딩 모델 경로 (HuggingFace GGUF)
+- `query.hybrid` - 하이브리드 검색 설정 (Vector + BM25)
+- `vectorWeight: 0.7` - 의미 검색 가중치 70%
+- `textWeight: 0.3` - 키워드 검색 가중치 30%
+- `cache.enabled` - 임베딩 캐시 활성화 (성능 향상)
+- `watch: true` - 파일 변경 자동 감지
 
 ### 2. Gateway 재시작
 
@@ -114,11 +162,15 @@ openclaw gateway restart
 # config.patch 사용 (권장)
 openclaw config patch <<EOF
 {
-  "memory": {
-    "search": {
-      "enabled": true,
-      "provider": "local",
-      "model": "hf:ggml-org/embeddinggemma-300M-GGUF/embeddinggemma-300M-Q8_0.gguf"
+  "agents": {
+    "defaults": {
+      "memorySearch": {
+        "enabled": true,
+        "provider": "local",
+        "local": {
+          "modelPath": "hf:ggml-org/embeddinggemma-300M-GGUF/embeddinggemma-300M-Q8_0.gguf"
+        }
+      }
     }
   }
 }
@@ -165,9 +217,9 @@ wget https://huggingface.co/ggml-org/embeddinggemma-300M-GGUF/resolve/main/embed
 ```
 
 **문제 2: 검색 결과가 안 나옴**
-- `extraPaths` 경로가 올바른지 확인
 - 메모리 파일이 실제로 존재하는지 확인
 - Gateway 재시작 확인
+- `openclaw memory status --deep`로 인덱싱 상태 확인
 
 **문제 3: 느린 검색 속도**
 - Q8 대신 Q4 양자화 모델 사용 고려
