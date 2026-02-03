@@ -49,7 +49,7 @@ tags:
 
 대부분의 설정 내용들을 갓대희 님이 작성하신 아래 내용을 따르고 있다.
 
-https://goddaehee.tistory.com/504
+[갓대희님 블로그](https://goddaehee.tistory.com/504)
 
 그래서 내가 다른 분들이랑 다르게 한 점은, 기존에 집에서 개발용이나 간단한 서비스 운영 ~~친구와 마크 멀티하기~~ 정도로 사용하고 있던 proxmox 서버에 새로운 인스턴스를 생성하여 환경을 분리하였다.
 
@@ -189,4 +189,4 @@ https://goddaehee.tistory.com/504
 - [OpenClaw 공식 문서](https://docs.openclaw.ai/)
 - [OpenClaw GitHub](https://github.com/openclaw/openclaw)
 - [ClawdHub - 스킬 마켓플레이스](https://clawdhub.com/)
-- [갓대희님 블로그 - Memory 시스템 설명](https://goddaehee.tistory.com/508)
+- [갓대희님 블로그](https://goddaehee.tistory.com/504)
