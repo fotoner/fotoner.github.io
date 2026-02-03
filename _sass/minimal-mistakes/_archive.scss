@@ -129,6 +129,35 @@
     margin: 0 0 4px;
     font-size: 0.6em;
   }
+
+  .archive__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1em;
+  }
+
+  .archive__item-teaser {
+    flex-shrink: 0;
+    width: 150px;
+    height: 100px;
+    overflow: hidden;
+
+    @include breakpoint($medium) {
+      width: 200px;
+      height: 130px;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .archive__item-body {
+    flex: 1;
+    min-width: 0;
+  }
 }
 
 /*

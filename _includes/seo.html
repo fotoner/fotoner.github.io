@@ -32,7 +32,22 @@
   {%- assign author_twitter = author.twitter | replace: "@", "" -%}
 {%- endif -%}
 
-{%- assign page_large_image = page.header.og_image | default: page.header.overlay_image | default: page.header.image | absolute_url -%}
+{%- assign page_large_image = page.header.og_image | default: page.header.overlay_image | default: page.header.image -%}
+
+{%- comment -%} If no header image, try to extract first image from content {%- endcomment -%}
+{%- unless page_large_image -%}
+  {%- assign content_split = page.content | split: 'src="' -%}
+  {%- if content_split.size > 1 -%}
+    {%- assign first_image = content_split[1] | split: '"' | first -%}
+    {%- if first_image contains 'http' -%}
+      {%- assign page_large_image = first_image -%}
+    {%- elsif first_image -%}
+      {%- assign page_large_image = first_image | absolute_url -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- else -%}
+  {%- assign page_large_image = page_large_image | absolute_url -%}
+{%- endunless -%}
 {%- assign page_large_image = page_large_image | escape -%}
 
 {%- assign page_teaser_image = page.header.teaser | default: site.og_image | absolute_url -%}
@@ -75,23 +90,26 @@
 
 {% if site.twitter.username %}
   <meta name="twitter:site" content="@{{ site.twitter.username | replace: "@", "" }}">
-  <meta name="twitter:title" content="{{ page.title | default: site.title | markdownify | strip_html | strip_newlines | escape_once }}">
-  <meta name="twitter:description" content="{{ seo_description }}">
-  <meta name="twitter:url" content="{{ canonical_url }}">
+{% endif %}
+<meta name="twitter:title" content="{{ page.title | default: site.title | markdownify | strip_html | strip_newlines | escape_once }}">
+<meta name="twitter:description" content="{{ seo_description }}">
+<meta name="twitter:url" content="{{ canonical_url }}">
 
-  {% if page_large_image %}
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="{{ page_large_image }}">
-  {% else %}
-    <meta name="twitter:card" content="summary">
-    {% if page_teaser_image %}
-      <meta name="twitter:image" content="{{ page_teaser_image }}">
-    {% endif %}
-  {% endif %}
+{% if page_large_image %}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="{{ page_large_image }}">
+{% elsif page_teaser_image %}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="{{ page_teaser_image }}">
+{% elsif site_og_image %}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="{{ site_og_image }}">
+{% else %}
+  <meta name="twitter:card" content="summary">
+{% endif %}
 
-  {% if author_twitter %}
-    <meta name="twitter:creator" content="@{{ author_twitter }}">
-  {% endif %}
+{% if author_twitter %}
+  <meta name="twitter:creator" content="@{{ author_twitter }}">
 {% endif %}
 
 {% if page.date %}
