@@ -5,7 +5,7 @@
   {% if content_split.size > 1 %}
     {% assign teaser = content_split[1] | split: '"' | first %}
   {% else %}
-    {% assign teaser = site.teaser %}
+    {% assign teaser = site.teaser | default: site.og_image %}
   {% endif %}
 {% endif %}
 
