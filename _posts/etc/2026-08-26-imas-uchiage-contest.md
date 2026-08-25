@@ -103,6 +103,24 @@ share: false
     background: #f7f5fb;
   }
 
+  .uchiage-theme {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1.25rem 0 2rem;
+    min-height: 6rem;
+    padding: 1.5rem 1.25rem;
+    border: 2px solid #7e6ca8;
+    border-radius: 0.9rem;
+    background: #f7f5fb;
+    box-shadow: 0 0.5rem 1.4rem rgba(126, 108, 168, 0.16);
+    color: #5f4d89;
+    font-size: 1.55rem;
+    font-weight: 700;
+    line-height: 1.45;
+    text-align: center;
+  }
+
   .uchiage-story {
     margin: 0 0 2rem;
     white-space: pre-line;
@@ -122,6 +140,11 @@ share: false
   @media (max-width: 600px) {
     .uchiage-summary {
       grid-template-columns: 1fr;
+    }
+
+    .uchiage-theme {
+      min-height: 5rem;
+      font-size: 1.3rem;
     }
   }
 </style>
@@ -195,7 +218,7 @@ M@STER SPARKLE에 실장된 안나 곡에 대한 얘기
 
 ## 공모 주제
 
-> **우치아게에서 말하고 싶은, 내가 좋아하는 아이마스**
+<div class="uchiage-theme">우치아게에서 말하고 싶은, 내가 좋아하는 아이마스</div>
 
 <div class="uchiage-story">아이마스의 악곡이라면 어떤 곡이든 관계없습니다.
 
